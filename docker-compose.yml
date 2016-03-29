@@ -1,0 +1,20 @@
+version: '2'
+services:
+  nginx:
+    build: ./nginx
+    volumes_from:
+      - code
+    links:
+      - fpm
+    ports:
+      - 80:80
+  code:
+    build: ./code
+    container_name: code
+    volumes:
+      - ./code:/var/www/html
+      - ./composer/vendor:/var/www/html/vendor
+  fpm:
+    build: ./php
+    volumes_from:
+      - code
